@@ -1,0 +1,45 @@
+{
+  "name": "划词翻译",
+  "version": "1.0.0",
+  "description": "支持网页划词翻译功能",
+  "manifest_version": 2,
+  "icons": {
+    "16": "images/translate.png",
+    "32": "images/translate.png",
+    "48": "images/translate.png",
+    "128": "images/translate.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "images/translate.png",
+      "32": "images/translate.png"
+    },
+    "default_title": "划词翻译",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "contextMenus"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  }
+}
