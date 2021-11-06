@@ -31,14 +31,23 @@ Panel.prototype.create = function () {
 
     // 翻译面板dom结构
     let html = `
-        <header>划词翻译<span class="close">✖</span></header>
+        <header>
+            <span>划词翻译</span>
+            <span class="close">✖</span>
+            </header>
         <main>
             <div class="source">
-                <div class="title">英语</div>
+                <div class="title-box">
+                    <span class="title">英语</span>
+                </div>
                 <div class="content"></div>
             </div>
+            <hr color="#ddd" />
             <div class="dest">
-                <div class="title">简体中文</div>${toSelect}
+                <div class="title-box">
+                    <span class="title">中文</span>
+                    ${toSelect}
+                </div>
                 <div class="content">...</div>
             </div>
         </main>
