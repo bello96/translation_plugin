@@ -18,6 +18,6 @@ chrome.runtime.onInstalled.addListener(function () {
 chrome.contextMenus.onClicked.addListener(function (info) {
     if (info.menuItemId === 'translate_baidu') {
         // 创建并跳转到一个新标签页
-        chrome.tabs.create({ url: `https://fanyi.baidu.com/#lang-auto/lang-auto/${info.selectionText}` })
+        chrome.tabs.create({ url: `https://fanyi.baidu.com/#lang-auto/lang-auto/${info.selectionText}` });
     }
 })

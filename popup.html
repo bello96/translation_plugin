@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <style>
-      *,
+      /* *,
       *::before,
       *::after {
         padding: 0;
@@ -16,7 +16,7 @@
         font: 13px/20px "Helvetica Neue", Helvetica, Arial, sans-serif;
         color: #404040;
         background: white;
-      }
+      } */
 
       .container_popup {
         margin: 10px auto;
@@ -28,18 +28,18 @@
         flex-direction: column;
       }
 
-      .container_popup .text {
+      .container_popup .container_popup_text {
         color: #333;
         font-weight: bold;
         transition: all 0.4s;
       }
 
-      .container_popup > .switch {
+      .container_popup > .container_popup_switch {
         display: block;
         margin: 12px auto;
       }
 
-      .container_popup .switch {
+      .container_popup .container_popup_switch {
         position: relative;
         display: inline-block;
         vertical-align: top;
@@ -56,14 +56,14 @@
         background-image: linear-gradient(to bottom, #eeeeee, white 25px);
       }
 
-      .container_popup .switch-input {
+      .container_popup .container_popup_switch-input {
         position: absolute;
         top: 0;
         left: 0;
         opacity: 0;
       }
 
-      .container_popup .switch-label {
+      .container_popup .container_popup_switch-label {
         position: relative;
         display: block;
         height: inherit;
@@ -77,8 +77,8 @@
         transition-property: opacity background;
       }
 
-      .container_popup .switch-label:before,
-      .container_popup .switch-label:after {
+      .container_popup .container_popup_switch-label:before,
+      .container_popup .container_popup_switch-label:after {
         position: absolute;
         top: 50%;
         margin-top: -0.5em;
@@ -86,14 +86,14 @@
         transition: inherit;
       }
 
-      .container_popup .switch-label:before {
+      .container_popup .container_popup_switch-label:before {
         content: attr(data-off);
         right: 11px;
         color: #aaa;
         text-shadow: 0 1px rgba(255, 255, 255, 0.5);
       }
 
-      .container_popup .switch-label:after {
+      .container_popup .container_popup_switch-label:after {
         content: attr(data-on);
         left: 11px;
         color: white;
@@ -101,20 +101,26 @@
         opacity: 0;
       }
 
-      .container_popup .switch-input.checked ~ .switch-label {
+      .container_popup
+        .container_popup_switch-input.checked
+        ~ .container_popup_switch-label {
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15),
           inset 0 0 3px rgba(0, 0, 0, 0.2);
       }
 
-      .container_popup .switch-input.checked ~ .switch-label:before {
+      .container_popup
+        .container_popup_switch-input.checked
+        ~ .container_popup_switch-label:before {
         opacity: 0;
       }
 
-      .container_popup .switch-input.checked ~ .switch-label:after {
+      .container_popup
+        .container_popup_switch-input.checked
+        ~ .container_popup_switch-label:after {
         opacity: 1;
       }
 
-      .container_popup .switch-handle {
+      .container_popup .container_popup_switch-handle {
         position: absolute;
         top: 4px;
         left: 4px;
@@ -130,7 +136,7 @@
         transition: left 0.15s ease-out;
       }
 
-      .container_popup .switch-handle:before {
+      .container_popup .container_popup_switch-handle:before {
         content: "";
         position: absolute;
         top: 50%;
@@ -147,23 +153,32 @@
         background-image: linear-gradient(to bottom, #eeeeee, white);
       }
 
-      .container_popup .switch-input.checked ~ .switch-handle {
+      .container_popup
+        .container_popup_switch-input.checked
+        ~ .container_popup_switch-handle {
         left: 40px;
         box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
       }
 
-      .container_popup .switch-green > .switch-input.checked ~ .switch-label {
+      .container_popup
+        .container_popup_switch-green
+        > .container_popup_switch-input.checked
+        ~ .container_popup_switch-label {
         background: #4fb845;
       }
     </style>
   </head>
   <body>
     <div class="container_popup">
-      <div class="text">启用划词</div>
-      <label class="switch switch-green">
-        <input type="checkbox" class="switch-input checked" />
-        <span class="switch-label" data-on="On" data-off="Off"></span>
-        <span class="switch-handle"></span>
+      <div class="container_popup_text">启用划词</div>
+      <label class="container_popup_switch container_popup_switch-green">
+        <input type="checkbox" class="container_popup_switch-input" />
+        <span
+          class="container_popup_switch-label"
+          data-on="On"
+          data-off="Off"
+        ></span>
+        <span class="container_popup_switch-handle"></span>
       </label>
     </div>
     <script src="popup.js"></script>
