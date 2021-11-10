@@ -88,11 +88,25 @@ Panel.prototype.create = function () {
 
     // 翻译面板dom结构
     let html = `
-        <header>
+        <header class="translate_header">
             <span>划词翻译</span>
-            <span class="translate_close">✖</span>
+            <span class="translate_close">
+                <svg
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    p-id="3842"
+                    width="18"
+                    height="18"
+                >
+                    <path
+                        d="M286.165333 798.165333L512 572.330667l225.834667 225.834666 60.330666-60.330666L572.330667 512l225.834666-225.834667-60.330666-60.330666L512 451.669333 286.165333 225.834667 225.834667 286.165333 451.669333 512l-225.834666 225.834667z"
+                        fill="#8a8a8a"
+                        p-id="3843"
+                    ></path>
+                </svg>
+            </span>
             </header>
-        <main>
+        <main class="translate_contentpanel">
             <div class="translate_source">
                 <div class="title-box">
                     <span class="translate_describe">原文</span>
@@ -112,14 +126,14 @@ Panel.prototype.create = function () {
             </div>
         </main>
         `
-
     container.innerHTML = html;
     container.classList.add('translate_panel_box');
     document.body.appendChild(container);
     this.container = container;
-
     // 关闭按钮
     this.close = container.querySelector('.translate_close');
+    // 翻译面板大容器
+    this.contentpanel = container.querySelector(".translate_contentpanel")
     // 需要翻译的内容盒子
     this.source = container.querySelector('.translate_source .translate_content');
     // 翻译后的内容盒子
@@ -128,15 +142,20 @@ Panel.prototype.create = function () {
     this.toSelectdom = container.querySelector('#translate_to');
     // 切换原文语种下拉选择
     this.fromSelectdom = container.querySelector('#translate_from');
+    // 头部容器
+    this.header_box = container.querySelector('.translate_header')
 }
 
 //显示翻译面板
 Panel.prototype.show = function () {
     this.container.classList.add('show_panel');
+    // 注册拖拽事件
+    this.startDrop(this.header_box, this.container)
 }
 //隐藏翻译面板
 Panel.prototype.hide = function () {
     this.container.classList.remove('show_panel');
+    document.onmouseup = null;
 }
 
 // 关闭面板事件
@@ -146,7 +165,19 @@ Panel.prototype.bindClose = function () {
     }
 }
 
-// 翻译函数 (origin:选中的文本内容 )
+// // 通过属性值获取对应dom
+Panel.prototype.getAttributeValueDom = function (parent, tagName, name, value) {
+    var selectDom = [];
+    var doms = parent.getElementsByTagName(tagName);
+    for (var i = 0; i < doms.length; i++) {
+        if (value === doms[i].getAttribute(name)) {
+            selectDom.push(doms[i]);
+        }
+    }
+    return selectDom;
+}
+
+// 翻译函数（谷歌翻译） (origin:选中的文本内容 )
 Panel.prototype.translate = function (origin = '') {
     //翻译前的文本内容
     // this.source.innerHTML = origin
@@ -180,23 +211,22 @@ Panel.prototype.translate = function (origin = '') {
         let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${slValue}&tl=${toLang}&dt=t&q=${origin}`
         fetch(url).then(res => res.json()).then(res => {
             // 自动选择赋值检测的语种文本
-            let targetDoms = getAttributeValueDom(this.fromSelectdom, 'option', 'value', res[2])
+            let targetDoms = this.getAttributeValueDom(this.fromSelectdom, 'option', 'value', res[2])
             if (targetDoms && targetDoms.length > 0) {
                 this.container.querySelector('.translate_source .translate_title').innerText = targetDoms[0].innerHTML;
             } else {
                 this.container.querySelector('.translate_source .translate_title').innerText = res[2];
             }
-            
-            let newarr = res[0];
-            let yiwen = '';
+            let temp = res[0];
             let yuanwen = '';
-            newarr.forEach(item => {
-                yiwen += `<p>${item[0]}</p>`;
-                yuanwen += `<p>${item[1]}</p>`;
+            let yiwen = '';
+            temp.forEach((item,index) => {
+                yuanwen += `<p idx="${index}" class="translate_translation">${item[1]}</p>`;
+                yiwen += `<p idx="${index}" class="translate_original">${item[0]}</p>`;
             })
             setTimeout(() => {
-                this.dest.innerHTML = yiwen;
                 this.source.innerHTML = yuanwen;
+                this.dest.innerHTML = yiwen;
             }, 50)
         })
     })
@@ -219,6 +249,58 @@ Panel.prototype.isFatcher = function (p, c) {
     return false;
 }
 
+// 注册拖拽事件
+Panel.prototype.startDrop = function (drop_dom, panel_dom) {
+    drop_dom.onmousedown = e => {
+        e.preventDefault()
+        let { left, top } = this.getOffsetXY(panel_dom),
+          { pageX, pageY } = e,
+          boxX = pageX - left,
+          boxY = pageY - top;
+        document.onmousemove = function (e) {
+          e.preventDefault()
+          let { pageX, pageY } = e;
+          if (pageX <= 0) { pageX = 0 }
+          if (pageY <= 0) { pageY = 0 }
+          panel_dom.style.left = `${pageX - boxX}px`;
+          panel_dom.style.top = `${pageY - boxY}px`;
+        };
+        document.onmouseup = () => (document.onmousemove = null);
+    };
+}
+
+// 获取距离最外层偏移量
+Panel.prototype.getOffsetXY = function (element) {
+    let parent = element.offsetParent,
+      top = element.offsetTop,
+      left = element.offsetLeft;
+    while (parent) {
+      left += parent.clientLeft;
+      left += parent.offsetLeft;
+      top += parent.clientTop;
+      top += parent.offsetTop;
+      parent = parent.offsetParent;
+    }
+    return { top, left };
+}
+
+// 鼠标移入移出高亮公共函数
+Panel.prototype.moveAndOutFn = function (e, vdom, addOrRemove) {
+    let idx = e.target.getAttribute('idx');
+    e.target.classList[addOrRemove]('translate_active');
+    let childs = vdom.childNodes;
+    let scrollTopValue = 0;
+    childs.forEach(item => {
+        if (item.getAttribute('idx') === idx) {
+            item.classList[addOrRemove]('translate_active')
+        }
+        if (parseInt(item.getAttribute('idx')) < parseInt(idx)) {
+            scrollTopValue += item.scrollHeight
+        }
+    })
+    vdom.scrollTop = scrollTopValue;
+}
+
 //实例化一个翻译面板
 let panel = new Panel()
 
@@ -234,6 +316,30 @@ panel.toSelectdom.onchange = function () {
     let key = this.selectedOptions[0].getAttribute('data-key');
     chrome.storage.sync.set({ 'tl': { key: key, value: this.value } });
     panel.translate(panel.origintext);
+}
+
+// 鼠标移入高亮 事件处理
+panel.contentpanel.onmouseover = e => {
+    if (e.target.className === 'translate_translation') {
+        // 鼠标移入原文
+        panel.moveAndOutFn(e, panel.dest, 'add')
+    }
+    if (e.target.className === 'translate_original') {
+        // 鼠标移入译文
+        panel.moveAndOutFn(e, panel.source, 'add')
+    }
+}
+
+// 鼠标移出 给每一个p标签都加（原文p)
+panel.contentpanel.onmouseout = function (e) {
+    if (e.target.className === 'translate_translation translate_active') {
+        // 鼠标移出原文
+        panel.moveAndOutFn(e, panel.dest, 'remove')
+    }
+    if (e.target.className === 'translate_original translate_active') {
+        // 鼠标移出译文
+        panel.moveAndOutFn(e, panel.source, 'remove')
+    }
 }
 
 // 查看之前有没有存储 'switch' 这一项(查看用户之前是否已选择开启/关闭划词翻译功能,只要选择过,都会存储在switch里)
@@ -264,13 +370,13 @@ window.onmouseup = function (e) {
     if (panel.isFatcher(panel.container, e.target)) return
     // 获取鼠标选中的内容
     let origin = window.getSelection().toString().trim();
-    // 存储选中的文本内容 备用
-    panel.origintext = origin;
     // 如果鼠标选中的内容为空 直接隐藏翻译面板
     if (!origin) {
         panel.hide();
         return
     }
+    // 存储选中的文本内容 备用
+    panel.origintext = origin;
     // 光标释放时在页面上的位置
     let x = e.pageX;
     let y = e.pageY;
@@ -283,14 +389,5 @@ window.onmouseup = function (e) {
     panel.show();
 }
 
-// 通过属性值获取dom
-function getAttributeValueDom(parent, tagName, name, value) {
-    var selectDom = [];
-    var doms = parent.getElementsByTagName(tagName);
-    for (var i = 0; i < doms.length; i++) {
-        if (value === doms[i].getAttribute(name)) {
-            selectDom.push(doms[i]);
-        }
-    }
-    return selectDom;
-}
+
+

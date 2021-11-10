@@ -5,6 +5,9 @@
 let selectNode = document.querySelector('.container_popup .container_popup_switch-input');
 //默认划词翻译功能是关闭状态
 let statusValue = 'off';
+// title文本dom
+let titleSelectDom = document.querySelector(".container_popup .container_popup_text")
+
 
 // 每次初始化都需要查询是否开启 划词翻译 功能，控制按钮样式
 chrome.storage.sync.get(['switchStatus'], function (res) {
@@ -12,9 +15,11 @@ chrome.storage.sync.get(['switchStatus'], function (res) {
     if (res.switchStatus === 'on') {
         selectNode.classList.add('checked');
         statusValue = 'on';
+        titleSelectDom.innerText = "关闭划词"
     } else {
         selectNode.classList.remove('checked');
         statusValue = 'off';
+        titleSelectDom.innerText = "启用划词"
     }
     setStorageContentTabs(res.switchStatus);
 });
@@ -24,9 +29,11 @@ selectNode.onclick = function () {
     if (statusValue === 'off') {
         statusValue = 'on';
         selectNode.classList.add('checked');
+        titleSelectDom.innerText = "关闭划词"
     } else {
         statusValue = 'off';
         selectNode.classList.remove('checked');
+        titleSelectDom.innerText = "启用划词"
     }
     // 存储是否开启翻译功能的状态值
     chrome.storage.sync.set({ switchStatus: statusValue });
