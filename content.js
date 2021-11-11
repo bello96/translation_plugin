@@ -90,22 +90,40 @@ Panel.prototype.create = function () {
     let html = `
         <header class="translate_header">
             <span>划词翻译</span>
-            <span class="translate_close">
-                <svg
-                    viewBox="0 0 1024 1024"
-                    version="1.1"
-                    p-id="3842"
-                    width="18"
-                    height="18"
-                >
-                    <path
-                        d="M286.165333 798.165333L512 572.330667l225.834667 225.834666 60.330666-60.330666L572.330667 512l225.834666-225.834667-60.330666-60.330666L512 451.669333 286.165333 225.834667 225.834667 286.165333 451.669333 512l-225.834666 225.834667z"
-                        fill="#8a8a8a"
-                        p-id="3843"
-                    ></path>
-                </svg>
+            <span class="translate_operation">
+                <span class="translate_copy translate_icon" title="复制译文">
+                    <svg
+                        viewBox="0 0 1024 1024"
+                        version="1.1"
+                        p-id="3989"
+                        width="16"
+                        height="16"
+                    >
+                        <path
+                            d="M394.666667 106.666667h448a74.666667 74.666667 0 0 1 74.666666 74.666666v448a74.666667 74.666667 0 0 1-74.666666 74.666667H394.666667a74.666667 74.666667 0 0 1-74.666667-74.666667V181.333333a74.666667 74.666667 0 0 1 74.666667-74.666666z m0 64a10.666667 10.666667 0 0 0-10.666667 10.666666v448a10.666667 10.666667 0 0 0 10.666667 10.666667h448a10.666667 10.666667 0 0 0 10.666666-10.666667V181.333333a10.666667 10.666667 0 0 0-10.666666-10.666666H394.666667z m245.333333 597.333333a32 32 0 0 1 64 0v74.666667a74.666667 74.666667 0 0 1-74.666667 74.666666H181.333333a74.666667 74.666667 0 0 1-74.666666-74.666666V394.666667a74.666667 74.666667 0 0 1 74.666666-74.666667h74.666667a32 32 0 0 1 0 64h-74.666667a10.666667 10.666667 0 0 0-10.666666 10.666667v448a10.666667 10.666667 0 0 0 10.666666 10.666666h448a10.666667 10.666667 0 0 0 10.666667-10.666666v-74.666667z"
+                            p-id="3990"
+                            fill="#8a8a8a"
+                        ></path>
+                    </svg>
+                </span>
+                <span class="translate_close translate_icon">
+                    <svg
+                        viewBox="0 0 1024 1024"
+                        version="1.1"
+                        p-id="3842"
+                        width="18"
+                        height="18"
+                    >
+                        <path
+                            d="M286.165333 798.165333L512 572.330667l225.834667 225.834666 60.330666-60.330666L572.330667 512l225.834666-225.834667-60.330666-60.330666L512 451.669333 286.165333 225.834667 225.834667 286.165333 451.669333 512l-225.834666 225.834667z"
+                            p-id="3843"
+                            fill="#8a8a8a"
+                        ></path>
+                    </svg>
+                </span>
             </span>
-            </header>
+        </header>
+        <input class="copy_input" style="position: fixed;top: 3000px;left: 3000px;opacity: 0;" />
         <main class="translate_contentpanel">
             <div class="translate_source">
                 <div class="title-box">
@@ -131,7 +149,9 @@ Panel.prototype.create = function () {
     document.body.appendChild(container);
     this.container = container;
     // 关闭按钮
-    this.close = container.querySelector('.translate_close');
+    this.close = container.querySelector('.translate_operation .translate_close');
+    // 复制按钮
+    this.copy = container.querySelector('.translate_operation .translate_copy');
     // 翻译面板大容器
     this.contentpanel = container.querySelector(".translate_contentpanel")
     // 需要翻译的内容盒子
@@ -143,7 +163,9 @@ Panel.prototype.create = function () {
     // 切换原文语种下拉选择
     this.fromSelectdom = container.querySelector('#translate_from');
     // 头部容器
-    this.header_box = container.querySelector('.translate_header')
+    this.header_box = container.querySelector('.translate_header');
+    // 用于复制的文本框
+    this.copy_input = container.querySelector('.copy_input');
 }
 
 //显示翻译面板
@@ -165,7 +187,8 @@ Panel.prototype.bindClose = function () {
     }
 }
 
-// // 通过属性值获取对应dom
+
+//  通过属性值获取对应dom
 Panel.prototype.getAttributeValueDom = function (parent, tagName, name, value) {
     var selectDom = [];
     var doms = parent.getElementsByTagName(tagName);
@@ -303,6 +326,17 @@ Panel.prototype.moveAndOutFn = function (e, vdom, addOrRemove) {
 
 //实例化一个翻译面板
 let panel = new Panel()
+
+// 复制译文
+panel.copy.onclick = function () {
+    // console.log(panel.dest.innerHTML);
+    let tempText = panel.dest.innerText;
+    let input = panel.copy_input;
+    input.value = tempText;
+    input.select();
+    document.execCommand("copy")
+}
+
 
 // 原文语种切换事件
 panel.fromSelectdom.onchange = function () {
