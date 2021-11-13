@@ -5,6 +5,11 @@ function Panel() {
     this.selectState = 'off';
     // 用于存储选中的文本内容
     this.origintext = '';
+    // 记录开始的top和left
+    this.oldTop = 0;
+    this.oldLeft = 0;
+    // 记录处于放大还是缩小状态
+    this.is_enlarge_narrow_status = true;
     // 调用create函数（作用：在页面上挂载翻译面板的dom元素）
     this.create();
     // 初始化关闭按钮事件
@@ -95,24 +100,54 @@ Panel.prototype.create = function () {
                     <svg
                         viewBox="0 0 1024 1024"
                         version="1.1"
-                        p-id="3989"
-                        width="16"
-                        height="16"
+                        p-id="12150"
+                        width="20"
+                        height="20"
                     >
                         <path
-                            d="M394.666667 106.666667h448a74.666667 74.666667 0 0 1 74.666666 74.666666v448a74.666667 74.666667 0 0 1-74.666666 74.666667H394.666667a74.666667 74.666667 0 0 1-74.666667-74.666667V181.333333a74.666667 74.666667 0 0 1 74.666667-74.666666z m0 64a10.666667 10.666667 0 0 0-10.666667 10.666666v448a10.666667 10.666667 0 0 0 10.666667 10.666667h448a10.666667 10.666667 0 0 0 10.666666-10.666667V181.333333a10.666667 10.666667 0 0 0-10.666666-10.666666H394.666667z m245.333333 597.333333a32 32 0 0 1 64 0v74.666667a74.666667 74.666667 0 0 1-74.666667 74.666666H181.333333a74.666667 74.666667 0 0 1-74.666666-74.666666V394.666667a74.666667 74.666667 0 0 1 74.666666-74.666667h74.666667a32 32 0 0 1 0 64h-74.666667a10.666667 10.666667 0 0 0-10.666666 10.666667v448a10.666667 10.666667 0 0 0 10.666666 10.666666h448a10.666667 10.666667 0 0 0 10.666667-10.666666v-74.666667z"
-                            p-id="3990"
+                            d="M619.008 153.6l8.192 0.256A123.392 123.392 0 0 1 742.4 276.992V307.2h25.6a102.4 102.4 0 0 1 102.4 102.4v358.4a102.4 102.4 0 0 1-102.4 102.4H409.6a102.4 102.4 0 0 1-102.4-102.4v-25.6h-30.208l-8.192-0.256A123.392 123.392 0 0 1 153.6 619.008V276.9408l0.256-8.0896A123.392 123.392 0 0 1 276.992 153.6h342.1184zM768 358.4H409.6a51.2 51.2 0 0 0-50.8416 45.2096L358.4 409.6v358.4a51.2 51.2 0 0 0 45.2096 50.8416L409.6 819.2h358.4a51.2 51.2 0 0 0 50.8416-45.2096L819.2 768V409.6a51.2 51.2 0 0 0-45.2096-50.8416L768 358.4z m-179.2 102.4a25.6 25.6 0 0 1 25.1904 20.992L614.4 486.4l-0.0512 76.8H691.2a25.6 25.6 0 0 1 4.608 50.7904L691.2 614.4H614.4v76.8a25.6 25.6 0 0 1-50.7904 4.608L563.2 691.2V614.4H486.4a25.6 25.6 0 0 1-4.608-50.7904L486.4 563.2h76.7488L563.2 486.4a25.6 25.6 0 0 1 25.6-25.6z m30.208-256H276.992l-7.0144 0.3072A72.192 72.192 0 0 0 204.8 276.992v342.1184l0.3072 6.9632A72.192 72.192 0 0 0 276.992 691.2H307.2V409.6a102.4 102.4 0 0 1 102.4-102.4h281.6v-30.208l-0.3072-7.0144A72.192 72.192 0 0 0 619.008 204.8z"
+                            p-id="12151"
                             fill="#8a8a8a"
                         ></path>
                     </svg>
                 </span>
-                <span class="translate_close translate_icon">
+                <span class="translate_enlarge_narrow translate_icon">
+                    <svg
+                        viewBox="0 0 1024 1024"
+                        class="translate_fangda"
+                        version="1.1"
+                        p-id="7209"
+                        width="16"
+                        height="16"
+                    >
+                        <path
+                            d="M181 357.5V181.2h176.4c14.3 0 25.9-11.6 25.9-25.9v-31.1c0-14.3-11.6-25.9-25.9-25.9H118c-11 0-20 9-20 20v239.4c0 14.3 11.6 25.9 25.9 25.9H155c14.4-0.1 26-11.7 26-26.1zM668.6 181.2H845v176.4c0 14.3 11.6 25.9 25.9 25.9H902c14.3 0 25.9-11.6 25.9-25.9V118.2c0-11-9-20-20-20H668.6c-14.3 0-25.9 11.6-25.9 25.9v31.1c0 14.3 11.6 26 25.9 26zM357.4 845.2H181V668.8c0-14.3-11.6-25.9-25.9-25.9H124c-14.3 0-25.9 11.6-25.9 25.9v239.4c0 11 9 20 20 20h239.4c14.3 0 25.9-11.6 25.9-25.9v-31.1c-0.1-14.4-11.7-26-26-26zM845 668.8v176.4H668.6c-14.3 0-25.9 11.6-25.9 25.9v31.1c0 14.3 11.6 25.9 25.9 25.9H908c11 0 20-9 20-20V668.8c0-14.3-11.6-25.9-25.9-25.9H871c-14.4 0-26 11.6-26 25.9z"
+                            p-id="7210"
+                            fill="#8a8a8a"
+                        ></path>
+                    </svg>
+                    <svg
+                        viewBox="0 0 1024 1024"
+                        version="1.1"
+                        class="translate_suoxiao translate_hide"
+                        p-id="2412"
+                        width="16"
+                        height="16"
+                        >
+                        <path
+                            d="M65.991363 679.954822c-12.104086 0-21.912081-9.807995-21.912081-21.91208s9.807995-21.912081 21.912081-21.912081h183.177057c38.183147 0 72.85129 15.590743 97.994906 40.734359 25.143616 25.11527 40.734359 59.811759 40.73436 97.994907v183.177057c0 12.104086-9.807995 21.912081-21.912081 21.91208s-21.912081-9.807995-21.91208-21.91208v-183.177057c0-26.079061-10.686746-49.805337-27.893257-67.011848s-40.932787-27.893257-67.011848-27.893257H65.991363z m613.935112 278.082162c0 12.104086-9.807995 21.912081-21.91208 21.91208s-21.912081-9.807995-21.912081-21.91208v-183.177057c0-38.183147 15.590743-72.85129 40.73436-97.994907 25.11527-25.143616 59.811759-40.734359 97.994906-40.734359h183.205404c12.104086 0 21.912081 9.807995 21.91208 21.912081s-9.807995 21.912081-21.91208 21.91208h-183.205404c-26.079061 0-49.805337 10.686746-67.011848 27.893257s-27.893257 40.932787-27.893257 67.011848v183.177057z m278.110509-613.963459c12.104086 0 21.912081 9.807995 21.91208 21.91208s-9.807995 21.912081-21.91208 21.912081h-183.205404c-38.183147 0-72.85129-15.590743-97.994906-40.73436s-40.734359-59.840106-40.73436-97.994906V65.963016c0-12.104086 9.807995-21.912081 21.912081-21.91208s21.912081 9.807995 21.91208 21.91208v183.205404c0 26.050714 10.686746 49.77699 27.893257 66.983501 17.206511 17.234858 40.932787 27.921603 67.011848 27.921604h183.205404zM344.073525 65.963016c0-12.104086 9.807995-21.912081 21.91208-21.91208s21.912081 9.807995 21.912081 21.91208v183.205404c0 38.1548-15.590743 72.85129-40.73436 97.994906s-59.811759 40.734359-97.994906 40.73436H65.991363c-12.104086 0-21.912081-9.807995-21.912081-21.912081s9.807995-21.912081 21.912081-21.91208h183.177057c26.079061 0 49.805337-10.686746 67.011848-27.893257 17.206511-17.234858 27.893257-40.932787 27.893257-67.011848V65.963016z"
+                            fill="#8a8a8a"
+                            p-id="2413"
+                        ></path>
+                    </svg>
+                </span>
+                <span class="translate_close translate_icon" title="关闭">
                     <svg
                         viewBox="0 0 1024 1024"
                         version="1.1"
                         p-id="3842"
-                        width="18"
-                        height="18"
+                        width="20"
+                        height="20"
                     >
                         <path
                             d="M286.165333 798.165333L512 572.330667l225.834667 225.834666 60.330666-60.330666L572.330667 512l225.834666-225.834667-60.330666-60.330666L512 451.669333 286.165333 225.834667 225.834667 286.165333 451.669333 512l-225.834666 225.834667z"
@@ -152,6 +187,8 @@ Panel.prototype.create = function () {
     this.close = container.querySelector('.translate_operation .translate_close');
     // 复制按钮
     this.copy = container.querySelector('.translate_operation .translate_copy');
+    // 放大缩小按钮
+    this.enlarge_narrow = container.querySelector('.translate_operation .translate_enlarge_narrow');
     // 翻译面板大容器
     this.contentpanel = container.querySelector(".translate_contentpanel")
     // 需要翻译的内容盒子
@@ -177,16 +214,22 @@ Panel.prototype.show = function () {
 //隐藏翻译面板
 Panel.prototype.hide = function () {
     this.container.classList.remove('show_panel');
-    document.onmouseup = null;
+    document.onmousemove = null
 }
 
 // 关闭面板事件
 Panel.prototype.bindClose = function () {
     this.close.onclick = () => {
         this.hide();
+        this.container.classList.remove('translate_panel_box_max')
+        this.contentpanel.classList.remove('translate_contentpanel_max')
+        this.enlarge_narrow.querySelector('.translate_fangda').classList.remove('translate_hide')
+        this.enlarge_narrow.querySelector('.translate_suoxiao').classList.add('translate_hide')
+        this.source.classList.remove('translate_content_max')
+        this.dest.classList.remove('translate_content_max')
+        this.is_enlarge_narrow_status = true;
     }
 }
-
 
 //  通过属性值获取对应dom
 Panel.prototype.getAttributeValueDom = function (parent, tagName, name, value) {
@@ -207,11 +250,9 @@ Panel.prototype.translate = function (origin = '') {
     //翻译后的文本内容(由于获取到翻译后的内容是一个异步过程,此时还没有开始翻译,先把翻译后的文本设置为...,后面等异步完成,获取到翻译后的内容后,再重新把内容插入进去)
     this.dest.innerText = '...';
     // this.source.innerText = '...'
-
     //用户选中的需要翻译的语言 如需要把英文翻译成中文,这里指的就是英文
     let slValue = 'auto';
     let toLang = 'zh-CN';
-
     // 查看用户是否已经设置了要翻译成哪个语种
     chrome.storage.sync.get(['sl', 'tl'], (result) => {
         if (result.sl) {
@@ -276,6 +317,7 @@ Panel.prototype.isFatcher = function (p, c) {
 Panel.prototype.startDrop = function (drop_dom, panel_dom) {
     drop_dom.onmousedown = e => {
         e.preventDefault()
+        if(!this.is_enlarge_narrow_status) return
         let { left, top } = this.getOffsetXY(panel_dom),
           { pageX, pageY } = e,
           boxX = pageX - left,
@@ -325,7 +367,7 @@ Panel.prototype.moveAndOutFn = function (e, vdom, addOrRemove) {
 }
 
 //实例化一个翻译面板
-let panel = new Panel()
+let panel = new Panel();
 
 // 复制译文
 panel.copy.onclick = function () {
@@ -337,6 +379,36 @@ panel.copy.onclick = function () {
     document.execCommand("copy")
 }
 
+// 全屏 归为按钮
+panel.enlarge_narrow.onclick = function () {
+    // 判断是放大还是缩小
+    if (panel.is_enlarge_narrow_status) {
+        // 记录top和left的值（还原时使用)
+        let { top: oldTop, left: oldLeft } = panel.getOffsetXY(panel.container)
+        panel.oldTop = oldTop;
+        panel.oldLeft = oldLeft;
+        panel.enlarge_narrow.querySelector('.translate_fangda').classList.add('translate_hide')
+        panel.enlarge_narrow.querySelector('.translate_suoxiao').classList.remove('translate_hide')
+        panel.container.classList.add('translate_panel_box_max')
+        panel.container.style.top = 0;
+        panel.container.style.left = 0;
+        // 放大缩小标志
+        panel.is_enlarge_narrow_status = false;
+        panel.contentpanel.classList.add('translate_contentpanel_max')
+        panel.source.classList.add('translate_content_max')
+        panel.dest.classList.add('translate_content_max')
+    } else {
+        panel.container.classList.remove('translate_panel_box_max')
+        panel.container.style.top = `${panel.oldTop}px`;
+        panel.container.style.left = `${panel.oldLeft}px`;
+        panel.contentpanel.classList.remove('translate_contentpanel_max')
+        panel.source.classList.remove('translate_content_max')
+        panel.dest.classList.remove('translate_content_max')
+        panel.enlarge_narrow.querySelector('.translate_fangda').classList.remove('translate_hide')
+        panel.enlarge_narrow.querySelector('.translate_suoxiao').classList.add('translate_hide')
+        panel.is_enlarge_narrow_status = true;
+    }
+}
 
 // 原文语种切换事件
 panel.fromSelectdom.onchange = function () {
@@ -414,7 +486,6 @@ window.onmouseup = function (e) {
     // 光标释放时在页面上的位置
     let x = e.pageX;
     let y = e.pageY;
-
     //设置翻译面板的位置
     panel.setPos({ x, y });
     // 调用翻译接口
