@@ -1,4 +1,3 @@
-
 // 翻译面板的构造函数
 function Panel() {
     // 划词翻译默认是关闭状态
@@ -94,7 +93,7 @@ Panel.prototype.create = function () {
     // 翻译面板dom结构
     let html = `
         <header class="translate_header">
-            <span>划词翻译</span>
+            <span class="translate_title_text">划词翻译</span>
             <span class="translate_operation">
                 <span class="translate_copy translate_icon" title="复制译文">
                     <svg
@@ -136,8 +135,8 @@ Panel.prototype.create = function () {
                         >
                         <path
                             d="M65.991363 679.954822c-12.104086 0-21.912081-9.807995-21.912081-21.91208s9.807995-21.912081 21.912081-21.912081h183.177057c38.183147 0 72.85129 15.590743 97.994906 40.734359 25.143616 25.11527 40.734359 59.811759 40.73436 97.994907v183.177057c0 12.104086-9.807995 21.912081-21.912081 21.91208s-21.912081-9.807995-21.91208-21.91208v-183.177057c0-26.079061-10.686746-49.805337-27.893257-67.011848s-40.932787-27.893257-67.011848-27.893257H65.991363z m613.935112 278.082162c0 12.104086-9.807995 21.912081-21.91208 21.91208s-21.912081-9.807995-21.912081-21.91208v-183.177057c0-38.183147 15.590743-72.85129 40.73436-97.994907 25.11527-25.143616 59.811759-40.734359 97.994906-40.734359h183.205404c12.104086 0 21.912081 9.807995 21.91208 21.912081s-9.807995 21.912081-21.91208 21.91208h-183.205404c-26.079061 0-49.805337 10.686746-67.011848 27.893257s-27.893257 40.932787-27.893257 67.011848v183.177057z m278.110509-613.963459c12.104086 0 21.912081 9.807995 21.91208 21.91208s-9.807995 21.912081-21.91208 21.912081h-183.205404c-38.183147 0-72.85129-15.590743-97.994906-40.73436s-40.734359-59.840106-40.73436-97.994906V65.963016c0-12.104086 9.807995-21.912081 21.912081-21.91208s21.912081 9.807995 21.91208 21.91208v183.205404c0 26.050714 10.686746 49.77699 27.893257 66.983501 17.206511 17.234858 40.932787 27.921603 67.011848 27.921604h183.205404zM344.073525 65.963016c0-12.104086 9.807995-21.912081 21.91208-21.91208s21.912081 9.807995 21.912081 21.91208v183.205404c0 38.1548-15.590743 72.85129-40.73436 97.994906s-59.811759 40.734359-97.994906 40.73436H65.991363c-12.104086 0-21.912081-9.807995-21.912081-21.912081s9.807995-21.912081 21.912081-21.91208h183.177057c26.079061 0 49.805337-10.686746 67.011848-27.893257 17.206511-17.234858 27.893257-40.932787 27.893257-67.011848V65.963016z"
-                            fill="#8a8a8a"
                             p-id="2413"
+                            fill="#8a8a8a"
                         ></path>
                     </svg>
                 </span>
@@ -284,7 +283,7 @@ Panel.prototype.translate = function (origin = '') {
             let temp = res[0];
             let yuanwen = '';
             let yiwen = '';
-            temp.forEach((item,index) => {
+            temp.forEach((item, index) => {
                 yuanwen += `<p idx="${index}" class="translate_translation">${item[1]}</p>`;
                 yiwen += `<p idx="${index}" class="translate_original">${item[0]}</p>`;
             })
@@ -317,18 +316,18 @@ Panel.prototype.isFatcher = function (p, c) {
 Panel.prototype.startDrop = function (drop_dom, panel_dom) {
     drop_dom.onmousedown = e => {
         e.preventDefault()
-        if(!this.is_enlarge_narrow_status) return
+        if (!this.is_enlarge_narrow_status) return
         let { left, top } = this.getOffsetXY(panel_dom),
-          { pageX, pageY } = e,
-          boxX = pageX - left,
-          boxY = pageY - top;
+            { pageX, pageY } = e,
+            boxX = pageX - left,
+            boxY = pageY - top;
         document.onmousemove = function (e) {
-          e.preventDefault()
-          let { pageX, pageY } = e;
-          if (pageX <= 0) { pageX = 0 }
-          if (pageY <= 0) { pageY = 0 }
-          panel_dom.style.left = `${pageX - boxX}px`;
-          panel_dom.style.top = `${pageY - boxY}px`;
+            e.preventDefault()
+            let { pageX, pageY } = e;
+            if (pageX <= 0) { pageX = 0 }
+            if (pageY <= 0) { pageY = 0 }
+            panel_dom.style.left = `${pageX - boxX}px`;
+            panel_dom.style.top = `${pageY - boxY}px`;
         };
         document.onmouseup = () => (document.onmousemove = null);
     };
@@ -337,14 +336,14 @@ Panel.prototype.startDrop = function (drop_dom, panel_dom) {
 // 获取距离最外层偏移量
 Panel.prototype.getOffsetXY = function (element) {
     let parent = element.offsetParent,
-      top = element.offsetTop,
-      left = element.offsetLeft;
+        top = element.offsetTop,
+        left = element.offsetLeft;
     while (parent) {
-      left += parent.clientLeft;
-      left += parent.offsetLeft;
-      top += parent.clientTop;
-      top += parent.offsetTop;
-      parent = parent.offsetParent;
+        left += parent.clientLeft;
+        left += parent.offsetLeft;
+        top += parent.clientTop;
+        top += parent.offsetTop;
+        parent = parent.offsetParent;
     }
     return { top, left };
 }
