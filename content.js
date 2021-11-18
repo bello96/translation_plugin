@@ -9,20 +9,104 @@ function Panel() {
     this.oldLeft = 0;
     // 记录处于放大还是缩小状态
     this.is_enlarge_narrow_status = true;
+    // 是否点击查询
+    this.isClickQuery = false;
     // 调用create函数（作用：在页面上挂载翻译面板的dom元素）
     this.create();
+    this.createIcon();
     // 初始化关闭按钮事件
     this.bindClose();
-}
+    this.iconClose();
+    // loding_dom
+    this.loding_dom = `<svg
+        width="23"
+        height="23"
+        viewBox="0 0 50 50"
+        style="enable-background: new 0 0 50 50"
+        xml:space="preserve"
+    >
+        <path
+            fill="#BBB"
+            d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"
+            transform="rotate(275.098 25 25)"
+        >
+            <animateTransform
+                attributeType="xml"
+                attributeName="transform"
+                type="rotate"
+                from="0 25 25"
+                to="360 25 25"
+                dur="1.2s"
+                repeatCount="indefinite"
+            ></animateTransform>
+        </path>
+    </svg>`
+};
 
-// 在Panel的原型链上创建一个create方法
+// 创建翻译icon
+Panel.prototype.createIcon = function () {
+    // 创建一个icon图标
+    let iconDom = document.createElement('div');
+    let icon = `<svg
+        class="translate_icon_yi"
+        viewBox="0 0 1024 1024"
+        version="1.1"
+        p-id="2454"
+        width="30"
+        height="30"
+    >
+        <path
+            d="M512 1024C230.4 1024 0 793.6 0 512S230.4 0 512 0s512 230.4 512 512-230.4 512-512 512z m0-938.666667C277.333333 85.333333 85.333333 277.333333 85.333333 512s192 426.666667 426.666667 426.666667 426.666667-192 426.666667-426.666667S746.666667 85.333333 512 85.333333z"
+            p-id="2455"
+            fill="#1296db"
+        ></path>
+        <path
+            d="M631.466667 635.733333H768v76.8h-136.533333v76.8h-89.6v-76.8H418.133333v-46.933333c-93.866667 89.6-110.933333 106.666667-119.466666 123.733333v-4.266666c-8.533333-17.066667-29.866667-46.933333-42.666667-55.466667 12.8-12.8 29.866667-38.4 29.866667-72.533333v-166.4H226.133333V409.6h145.066667v200.533333l21.333333-21.333333c8.533333 17.066667 17.066667 42.666667 25.6 59.733333v-12.8h123.733334v-25.6h-102.4v-76.8h102.4v-42.666666h89.6v42.666666h102.4v76.8h-102.4v25.6zM307.2 388.266667c-12.8-29.866667-42.666667-76.8-64-115.2l68.266667-42.666667c21.333333 34.133333 55.466667 81.066667 68.266666 110.933333L307.2 388.266667z m473.6-115.2c-25.6 51.2-64 93.866667-106.666667 132.266666 38.4 12.8 76.8 25.6 123.733334 34.133334-17.066667 17.066667-42.666667 51.2-55.466667 76.8-55.466667-12.8-102.4-34.133333-145.066667-59.733334-51.2 25.6-106.666667 46.933333-162.133333 64-8.533333-21.333333-29.866667-59.733333-46.933333-76.8 46.933333-8.533333 93.866667-25.6 136.533333-42.666666-25.6-25.6-46.933333-51.2-68.266667-81.066667h-38.4V247.466667h290.133334l17.066666-4.266667 55.466667 29.866667z m-234.666667 51.2c12.8 12.8 29.866667 29.866667 46.933334 42.666666 17.066667-12.8 38.4-25.6 51.2-42.666666h-98.133334z"
+            p-id="2456"
+            fill="#1296db"
+        ></path>
+    </svg>`;
+    iconDom.innerHTML = icon;
+    iconDom.classList.add('translate_icon_dom');
+    document.body.appendChild(iconDom);
+    this.iconDom = iconDom;
+};
+
+// 显示翻译icon
+Panel.prototype.showIcon = function () {
+    this.iconDom.classList.add('show_icon_dom');
+};
+
+// 隐藏翻译icon
+Panel.prototype.hideIcon = function () {
+    this.iconDom.classList.remove('show_icon_dom');
+};
+
+// 设置icon的位置
+Panel.prototype.setIconP = function (x, y) {
+    this.iconDom.style.top = y + 'px';
+    this.iconDom.style.left = x + 'px';
+    this.iconDom.setAttribute('x', x);
+    this.iconDom.setAttribute('y', y);
+};
+
+// icon的点击事件
+Panel.prototype.iconClose = function () {
+    this.iconDom.onclick = () => {
+        // 显示翻译面板
+        let x = this.iconDom.getAttribute('x');
+        let y = this.iconDom.getAttribute('y');
+        this.hideIcon()
+        this.showPanel(x, y, this.origintext);
+    }
+};
+
+// 创建翻译面板
 Panel.prototype.create = function () {
     // 创建一个翻译面板容器
     let container = document.createElement('div');
-
     // 原语种选择框
-    let fromSelect = `
-        <select id="translate_from">
+    let fromSelect = `<select id="translate_from">
             <option value="auto" data-key="自动检测" selected>自动检测</option>
             <option value="zh-CN" data-key="简体中文">简体中文</option>
             <option value="en" data-key="英文">英文</option>
@@ -53,7 +137,7 @@ Panel.prototype.create = function () {
             <option value="hr" data-key="克罗地亚语">克罗地亚语</option>
             <option value="hu" data-key="匈牙利语">匈牙利语</option>
             <option value="fi" data-key="芬兰语">芬兰语</option>
-        </select>`
+        </select>`;
 
     // 译文语种选择框
     let toSelect = `
@@ -88,13 +172,28 @@ Panel.prototype.create = function () {
             <option value="hr" data-key="克罗地亚语">克罗地亚语</option>
             <option value="hu" data-key="匈牙利语">匈牙利语</option>
             <option value="fi" data-key="芬兰语">芬兰语</option>
-        </select>`
+        </select>`;
 
     // 翻译面板dom结构
     let html = `
         <header class="translate_header">
             <span class="translate_title_text">划词翻译</span>
             <span class="translate_operation">
+                <span class="translate_query translate_icon">
+                    <svg
+                        viewBox="0 0 1024 1024"
+                        version="1.1"
+                        p-id="3797"
+                        width="18"
+                        height="18"
+                    >
+                        <path
+                        d="M957.9 908.2L833.4 783.7c56.4-66.7 92.7-151.4 98.6-245.3 14.6-232-161.7-431.9-393.8-446.5-9-0.6-17.9-0.8-26.8-0.8-220.4 0-405.7 171.5-419.7 394.5-14.6 232 161.7 431.9 393.8 446.5 9 0.6 17.9 0.8 26.8 0.8 102.8 0 197.9-37.3 271.6-99.8l124.5 124.5c6.8 6.8 15.8 10.3 24.7 10.3 9 0 17.9-3.4 24.7-10.3 13.7-13.6 13.7-35.7 0.1-49.4z m-206.2-140C686.4 829.3 601.4 863 512.3 863c-7.4 0-14.9-0.2-22.4-0.7-47.3-3-92.6-15.1-134.6-36-40.6-20.3-76.5-47.9-106.6-82.1-30.2-34.2-53.1-73.3-68.1-116.1-15.5-44.3-21.9-90.7-18.9-138 5.6-89.7 44.8-172.8 110.4-234.2 65.3-61.1 150.3-94.8 239.5-94.8 7.4 0 14.9 0.2 22.3 0.7 47.3 3 92.6 15.1 134.6 36 40.6 20.3 76.5 47.9 106.6 82.1 30.2 34.2 53.1 73.3 68.1 116.1 15.5 44.3 21.9 90.7 18.9 138-5.7 89.6-44.9 172.8-110.4 234.2z"
+                        p-id="3798"
+                        fill="#8a8a8a"
+                        ></path>
+                    </svg>
+                </span>
                 <span class="translate_copy translate_icon" title="复制译文">
                     <svg
                         viewBox="0 0 1024 1024"
@@ -157,7 +256,6 @@ Panel.prototype.create = function () {
                 </span>
             </span>
         </header>
-        <input class="copy_input" style="position: fixed;top: 3000px;left: 3000px;opacity: 0;" />
         <main class="translate_contentpanel">
             <div class="translate_source">
                 <div class="title-box">
@@ -177,7 +275,7 @@ Panel.prototype.create = function () {
                 <div class="translate_content">...</div>
             </div>
         </main>
-        `
+        `;
     container.innerHTML = html;
     container.classList.add('translate_panel_box');
     document.body.appendChild(container);
@@ -186,10 +284,12 @@ Panel.prototype.create = function () {
     this.close = container.querySelector('.translate_operation .translate_close');
     // 复制按钮
     this.copy = container.querySelector('.translate_operation .translate_copy');
+    // 搜索按钮
+    this.query = container.querySelector('.translate_operation .translate_query')
     // 放大缩小按钮
     this.enlarge_narrow = container.querySelector('.translate_operation .translate_enlarge_narrow');
     // 翻译面板大容器
-    this.contentpanel = container.querySelector(".translate_contentpanel")
+    this.contentpanel = container.querySelector(".translate_contentpanel");
     // 需要翻译的内容盒子
     this.source = container.querySelector('.translate_source .translate_content');
     // 翻译后的内容盒子
@@ -198,37 +298,59 @@ Panel.prototype.create = function () {
     this.toSelectdom = container.querySelector('#translate_to');
     // 切换原文语种下拉选择
     this.fromSelectdom = container.querySelector('#translate_from');
+    // 切换的外层盒子
+    this.fromSelectdomFater = container.querySelector('#translate_from');
     // 头部容器
     this.header_box = container.querySelector('.translate_header');
-    // 用于复制的文本框
-    this.copy_input = container.querySelector('.copy_input');
-}
+};
 
 //显示翻译面板
 Panel.prototype.show = function () {
     this.container.classList.add('show_panel');
     // 注册拖拽事件
-    this.startDrop(this.header_box, this.container)
-}
+    this.startDrop(this.header_box, this.container);
+};
+
 //隐藏翻译面板
 Panel.prototype.hide = function () {
     this.container.classList.remove('show_panel');
-    document.onmousemove = null
-}
+    document.onmousemove = null;
+    this.isClickQuery = false;
+    let textarea_btn_dom = this.contentpanel.querySelector('.translate_textarea_btn');
+    if (textarea_btn_dom) {
+        textarea_btn_dom.remove();
+    }
+};
 
 // 关闭面板事件
 Panel.prototype.bindClose = function () {
     this.close.onclick = () => {
         this.hide();
-        this.container.classList.remove('translate_panel_box_max')
-        this.contentpanel.classList.remove('translate_contentpanel_max')
-        this.enlarge_narrow.querySelector('.translate_fangda').classList.remove('translate_hide')
-        this.enlarge_narrow.querySelector('.translate_suoxiao').classList.add('translate_hide')
-        this.source.classList.remove('translate_content_max')
-        this.dest.classList.remove('translate_content_max')
+        this.container.classList.remove('translate_panel_box_max');
+        this.contentpanel.classList.remove('translate_contentpanel_max');
+        this.enlarge_narrow.querySelector('.translate_fangda').classList.remove('translate_hide');
+        this.enlarge_narrow.querySelector('.translate_suoxiao').classList.add('translate_hide');
+        this.source.classList.remove('translate_content_max');
+        this.dest.classList.remove('translate_content_max');
         this.is_enlarge_narrow_status = true;
     }
-}
+};
+
+// 设置翻译面板的位置
+Panel.prototype.setPos = function (pos) {
+    this.container.style.top = pos.y + 'px';
+    this.container.style.left = pos.x + 'px';
+};
+
+// 显示面板 执行翻译功能
+Panel.prototype.showPanel = function (x, y, origin) {
+    // 设置翻译面板的位置
+    this.setPos({ x, y });
+    // 调用翻译接口
+    this.translate(origin);
+    // 显示翻译面板
+    this.show();
+};
 
 //  通过属性值获取对应dom
 Panel.prototype.getAttributeValueDom = function (parent, tagName, name, value) {
@@ -240,16 +362,16 @@ Panel.prototype.getAttributeValueDom = function (parent, tagName, name, value) {
         }
     }
     return selectDom;
-}
+};
 
 // 翻译函数（谷歌翻译） (origin:选中的文本内容 )
 Panel.prototype.translate = function (origin = '') {
-    //翻译前的文本内容
-    // this.source.innerHTML = origin
-    //翻译后的文本内容(由于获取到翻译后的内容是一个异步过程,此时还没有开始翻译,先把翻译后的文本设置为...,后面等异步完成,获取到翻译后的内容后,再重新把内容插入进去)
-    this.dest.innerText = '...';
-    // this.source.innerText = '...'
-    //用户选中的需要翻译的语言 如需要把英文翻译成中文,这里指的就是英文
+    if(!origin) return
+    this.dest.innerHTML = this.loding_dom;
+    if (!this.isClickQuery) {
+        this.source.innerHTML = this.loding_dom;
+    }
+    
     let slValue = 'auto';
     let toLang = 'zh-CN';
     // 查看用户是否已经设置了要翻译成哪个语种
@@ -267,38 +389,86 @@ Panel.prototype.translate = function (origin = '') {
             this.toSelectdom.value = toLang;
         }
 
-        //谷歌翻译接口 
-        //sl：需要翻译的语言（en 英语） 
-        //tl：需要翻译成哪种语言 (zh-CN 中文) 
-        //q：需要翻译的内容
-        let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${slValue}&tl=${toLang}&dt=t&q=${origin}`
-        fetch(url).then(res => res.json()).then(res => {
-            // 自动选择赋值检测的语种文本
-            let targetDoms = this.getAttributeValueDom(this.fromSelectdom, 'option', 'value', res[2])
-            if (targetDoms && targetDoms.length > 0) {
-                this.container.querySelector('.translate_source .translate_title').innerText = targetDoms[0].innerHTML;
-            } else {
-                this.container.querySelector('.translate_source .translate_title').innerText = res[2];
+        // 判断如果字数过多 需切割分批处理
+        let newArr = this.appointSplitStr(origin, 1000);
+        // console.log('原文数组', newArr);
+        let yuanwen = '';
+        let yiwen = '';
+
+        new Promise((reslove, reject) => {
+            let temp_arr_all = [];
+            for (let i = 0; i < newArr.length;i++){
+                //谷歌翻译接口
+                this.translate_google_api(slValue, toLang, newArr[i]).then(res => {
+                    let result = res;
+                    if (!!result) {
+                        // 自动选择赋值检测的语种文本
+                        if (i === 0) {
+                            let targetDoms = this.getAttributeValueDom(this.fromSelectdom, 'option', 'value', result[2]);
+                            if (targetDoms && targetDoms.length > 0) {
+                                this.container.querySelector('.translate_source .translate_title').innerText = targetDoms[0].innerHTML;
+                            } else {
+                                this.container.querySelector('.translate_source .translate_title').innerText = result[2];
+                            }
+                        }
+                        temp_arr_all = [...temp_arr_all, ...result[0]];
+                        if (i === newArr.length -1) {
+                            reslove(temp_arr_all)
+                        }
+                    } else {
+                        reject(false)
+                    }
+                })
             }
-            let temp = res[0];
-            let yuanwen = '';
-            let yiwen = '';
-            temp.forEach((item, index) => {
-                yuanwen += `<p idx="${index}" class="translate_translation">${item[1]}</p>`;
-                yiwen += `<p idx="${index}" class="translate_original">${item[0]}</p>`;
-            })
-            setTimeout(() => {
-                this.source.innerHTML = yuanwen;
+        }).then(res => {
+            let result = res;
+            // console.log(res);
+            if (!!result) {
+                result.forEach((item, index) => {
+                    if (!this.isClickQuery) {
+                        yuanwen += `<p idx="${index}" class="translate_translation">${item[1]}</p>`;
+                     }
+                    yiwen += `<p idx="${index}" class="translate_original">${item[0]}</p>`;
+                })
+                if (!this.isClickQuery) {
+                    this.source.innerHTML = yuanwen;
+                }
                 this.dest.innerHTML = yiwen;
-            }, 50)
+            } else {
+                if (!this.isClickQuery) {
+                    this.source.innerHTML = '处理失败';
+                }
+                this.dest.innerHTML = '处理失败';
+            }
         })
     })
-}
+};
 
-// 设置翻译面板的位置
-Panel.prototype.setPos = function (pos) {
-    this.container.style.top = pos.y + 'px';
-    this.container.style.left = pos.x + 'px';
+// 调用谷歌翻译
+Panel.prototype.translate_google_api = function (slValue, toLang, origin) {
+    // 谷歌翻译接口
+    // sl:源语种
+    // tl:目标语种
+    // q:内容
+    let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${slValue}&tl=${toLang}&dt=t&q=${origin}`;
+    return fetch(url).then(res => res.json())
+};
+
+// 指定个数切割字符串
+Panel.prototype.appointSplitStr = function (str, num) {
+    let arr = [],
+        length = str.length,
+        index = 0;
+    for (let i = 0; i < length; i++) {
+        if (i % num === 0 && i !== 0) {
+            arr.push(str.slice(index, i));
+            index = i;
+        }
+        if (i + 1 === length) {
+            arr.push(str.slice(index, i + 1));
+        }
+    }
+    return arr;
 }
 
 // 判断鼠标点击的是不是面板外层
@@ -331,7 +501,7 @@ Panel.prototype.startDrop = function (drop_dom, panel_dom) {
         };
         document.onmouseup = () => (document.onmousemove = null);
     };
-}
+};
 
 // 获取距离最外层偏移量
 Panel.prototype.getOffsetXY = function (element) {
@@ -346,7 +516,7 @@ Panel.prototype.getOffsetXY = function (element) {
         parent = parent.offsetParent;
     }
     return { top, left };
-}
+};
 
 // 鼠标移入移出高亮公共函数
 Panel.prototype.moveAndOutFn = function (e, vdom, addOrRemove) {
@@ -356,113 +526,165 @@ Panel.prototype.moveAndOutFn = function (e, vdom, addOrRemove) {
     let scrollTopValue = 0;
     childs.forEach(item => {
         if (item.getAttribute('idx') === idx) {
-            item.classList[addOrRemove]('translate_active')
+            item.classList[addOrRemove]('translate_active');
         }
         if (parseInt(item.getAttribute('idx')) < parseInt(idx)) {
-            scrollTopValue += item.scrollHeight
+            scrollTopValue += item.scrollHeight;
         }
     })
     vdom.scrollTop = scrollTopValue;
-}
+};
+
+// 选中文本公共方法
+Panel.prototype.selectText = function (ele) {
+    if (document.body.createTextRange) {
+        var range = document.body.createTextRange();
+        range.moveToElementText(ele);
+        range.select();
+    } else if (window.getSelection) {
+        var selection = window.getSelection();
+        var range = document.createRange();
+        range.selectNodeContents(ele);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+};
 
 //实例化一个翻译面板
 let panel = new Panel();
 
-// 复制译文
+// 复制全部译文
 panel.copy.onclick = function () {
-    // console.log(panel.dest.innerHTML);
-    let tempText = panel.dest.innerText;
-    let input = panel.copy_input;
-    input.value = tempText;
-    input.select();
-    document.execCommand("copy")
+    panel.selectText(panel.dest);
+    document.execCommand("Copy");
+    window.getSelection().empty();
+};
+
+// 搜索按钮
+panel.query.onclick = function () {
+    // 点击搜索切换出搜索界面
+    if (panel.isClickQuery) return
+    let textarea =  `<textarea autofocus="autofocus" placeholder="请输入" class="translate_textarea"></textarea>`
+    panel.source.innerHTML = textarea;
+    panel.source.querySelector('.translate_textarea').value = panel.origintext;
+    let queryBtn = `<button class="translate_textarea_btn">翻译</button>`
+    panel.contentpanel.querySelector('select').insertAdjacentHTML('beforebegin',queryBtn)
+    panel.contentpanel.querySelector('.translate_textarea_btn').onclick = function () {
+        // 开始翻译
+        let textarea_value = panel.source.querySelector('.translate_textarea').value;
+        panel.translate(textarea_value)
+    }
+    panel.isClickQuery = true;
 }
 
-// 全屏 归为按钮
+
+
+// 右击选中目标段落
+panel.contentpanel.oncontextmenu = function (e) {
+    e.preventDefault();
+    panel.selectText(e.target);
+};
+
+// 全屏 缩放按钮
 panel.enlarge_narrow.onclick = function () {
     // 判断是放大还是缩小
     if (panel.is_enlarge_narrow_status) {
         // 记录top和left的值（还原时使用)
-        let { top: oldTop, left: oldLeft } = panel.getOffsetXY(panel.container)
+        let { top: oldTop, left: oldLeft } = panel.getOffsetXY(panel.container);
         panel.oldTop = oldTop;
         panel.oldLeft = oldLeft;
-        panel.enlarge_narrow.querySelector('.translate_fangda').classList.add('translate_hide')
-        panel.enlarge_narrow.querySelector('.translate_suoxiao').classList.remove('translate_hide')
-        panel.container.classList.add('translate_panel_box_max')
+        panel.enlarge_narrow.querySelector('.translate_fangda').classList.add('translate_hide');
+        panel.enlarge_narrow.querySelector('.translate_suoxiao').classList.remove('translate_hide');
+        if (panel.isClickQuery) {
+            panel.source.querySelector('.translate_textarea').classList.add('translate_textarea_max');
+        }
+        panel.container.classList.add('translate_panel_box_max');
         panel.container.style.top = 0;
         panel.container.style.left = 0;
         // 放大缩小标志
         panel.is_enlarge_narrow_status = false;
-        panel.contentpanel.classList.add('translate_contentpanel_max')
-        panel.source.classList.add('translate_content_max')
-        panel.dest.classList.add('translate_content_max')
+        panel.contentpanel.classList.add('translate_contentpanel_max');
+        panel.source.classList.add('translate_content_max');
+        panel.dest.classList.add('translate_content_max');
     } else {
-        panel.container.classList.remove('translate_panel_box_max')
+        panel.container.classList.remove('translate_panel_box_max');
         panel.container.style.top = `${panel.oldTop}px`;
         panel.container.style.left = `${panel.oldLeft}px`;
-        panel.contentpanel.classList.remove('translate_contentpanel_max')
-        panel.source.classList.remove('translate_content_max')
-        panel.dest.classList.remove('translate_content_max')
-        panel.enlarge_narrow.querySelector('.translate_fangda').classList.remove('translate_hide')
-        panel.enlarge_narrow.querySelector('.translate_suoxiao').classList.add('translate_hide')
+        panel.contentpanel.classList.remove('translate_contentpanel_max');
+        panel.source.classList.remove('translate_content_max');
+        panel.dest.classList.remove('translate_content_max');
+        if (panel.isClickQuery) {
+            panel.source.querySelector('.translate_textarea').classList.remove('translate_textarea_max');
+        }
+        panel.enlarge_narrow.querySelector('.translate_fangda').classList.remove('translate_hide');
+        panel.enlarge_narrow.querySelector('.translate_suoxiao').classList.add('translate_hide');
         panel.is_enlarge_narrow_status = true;
     }
-}
+};
 
 // 原文语种切换事件
 panel.fromSelectdom.onchange = function () {
     let key = this.selectedOptions[0].getAttribute('data-key');
     chrome.storage.sync.set({ 'sl': { key: key, value: this.value } });
-    panel.translate(panel.origintext);
-}
+    if (panel.isClickQuery) {
+        let textareavalue = panel.source.querySelector('.translate_textarea').value;
+        panel.translate(textareavalue);
+    } else {
+        panel.translate(panel.origintext);
+    }
+};
 
-// 要翻译成的语种切换事件
+// 目标语种切换事件
 panel.toSelectdom.onchange = function () {
     let key = this.selectedOptions[0].getAttribute('data-key');
     chrome.storage.sync.set({ 'tl': { key: key, value: this.value } });
-    panel.translate(panel.origintext);
-}
+    if (panel.isClickQuery) {
+        let textareavalue = panel.source.querySelector('.translate_textarea').value;
+        panel.translate(textareavalue);
+    } else {
+        panel.translate(panel.origintext);
+    }
+};
 
 // 鼠标移入高亮 事件处理
 panel.contentpanel.onmouseover = e => {
     if (e.target.className === 'translate_translation') {
         // 鼠标移入原文
-        panel.moveAndOutFn(e, panel.dest, 'add')
+        panel.moveAndOutFn(e, panel.dest, 'add');
     }
     if (e.target.className === 'translate_original') {
         // 鼠标移入译文
-        panel.moveAndOutFn(e, panel.source, 'add')
+        panel.moveAndOutFn(e, panel.source, 'add');
     }
-}
+};
 
 // 鼠标移出 给每一个p标签都加（原文p)
 panel.contentpanel.onmouseout = function (e) {
     if (e.target.className === 'translate_translation translate_active') {
         // 鼠标移出原文
-        panel.moveAndOutFn(e, panel.dest, 'remove')
+        panel.moveAndOutFn(e, panel.dest, 'remove');
     }
     if (e.target.className === 'translate_original translate_active') {
         // 鼠标移出译文
-        panel.moveAndOutFn(e, panel.source, 'remove')
+        panel.moveAndOutFn(e, panel.source, 'remove');
     }
-}
+};
 
-// 查看之前有没有存储 'switch' 这一项(查看用户之前是否已选择开启/关闭划词翻译功能,只要选择过,都会存储在switch里)
-chrome.storage.sync.get(['switch'], function (result) {
+// 初始化查看是否开启翻译功能
+chrome.storage.sync.get(['statusValue'], function (result) {
     //如果有设置
-    if (result.switch) {
+    if (result.statusValue) {
         //把值(on / off)赋值给网页上翻译插件的状态变量
-        panel.selectState = result.switch;
+        panel.selectState = result.statusValue;
     }
 });
 
-//运行时，监听是否有数据传过来
+//运行时，实时监听是否有数据传过来
 chrome.runtime.onMessage.addListener(
     function (request) {
-        // 如果有传 'switch' (当选项[开启]/[关闭]发生改变时,popup.js都会给当前活动标签页传递switch数据,也就是用户选择的选项是什么)
-        if (request.switch) {
+        if (request.statusValue) {
             //把用户修改的选项的值赋值给该变量
-            panel.selectState = request.switch;
+            panel.selectState = request.statusValue;
         }
     }
 );
@@ -473,11 +695,12 @@ window.onmouseup = function (e) {
     if (panel.selectState === 'off') return
     // 判断点击的是否是外层父元素
     if (panel.isFatcher(panel.container, e.target)) return
+    panel.hide();
     // 获取鼠标选中的内容
     let origin = window.getSelection().toString().trim();
     // 如果鼠标选中的内容为空 直接隐藏翻译面板
     if (!origin) {
-        panel.hide();
+        panel.hideIcon();
         return
     }
     // 存储选中的文本内容 备用
@@ -485,13 +708,6 @@ window.onmouseup = function (e) {
     // 光标释放时在页面上的位置
     let x = e.pageX;
     let y = e.pageY;
-    //设置翻译面板的位置
-    panel.setPos({ x, y });
-    // 调用翻译接口
-    panel.translate(origin);
-    // 显示翻译面板
-    panel.show();
-}
-
-
-
+    panel.setIconP(x, y);
+    panel.showIcon();
+};
