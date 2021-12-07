@@ -1,3 +1,6 @@
+.body-popup-parent--hidden {
+  overflow: hidden;
+}
 .translate_panel_box {
   width: 320px;
   border: 1px solid rgba(183, 183, 183, 0.8);
@@ -110,7 +113,7 @@
 }
 
 .translate_panel_box .translate_contentpanel.translate_contentpanel_max {
-  height: calc(100% - 30px);
+  height: calc(100% - 35px);
   overflow: hidden;
   display: flex;
 }
@@ -198,7 +201,10 @@
   height: 195px;
   padding: 4px;
   box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 500;
   border-radius: 4px;
+  font-family: "微软雅黑";
   resize: none;
   list-style: none;
   border: 1px solid #dee1e6;
@@ -208,7 +214,8 @@
 .translate_panel_box
   .translate_content
   .translate_textarea.translate_textarea_max {
-  height: 85vh;
+  font-size: 16px;
+  height: 100%;
 }
 
 .translate_panel_box .title-box .translate_textarea_btn {
@@ -250,13 +257,12 @@
 .translate_panel_box .translate_content .translate_textarea:focus-visible {
   outline: none;
   border: 1px solid #c3c8cc;
-
   transition: border 0.4s;
 }
 
 .translate_panel_box .translate_content.translate_content_max {
-  max-height: 95%;
   font-size: 16px;
+  max-height: calc(100% - 30px);
 }
 
 .translate_panel_box .translate_content:hover {

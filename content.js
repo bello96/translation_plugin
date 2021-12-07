@@ -179,7 +179,7 @@ Panel.prototype.create = function () {
         <header class="translate_header">
             <span class="translate_title_text">划词翻译</span>
             <span class="translate_operation">
-                <span class="translate_query translate_icon">
+                <span class="translate_query translate_icon" title="输入">
                     <svg
                         viewBox="0 0 1024 1024"
                         version="1.1"
@@ -188,9 +188,9 @@ Panel.prototype.create = function () {
                         height="18"
                     >
                         <path
-                        d="M957.9 908.2L833.4 783.7c56.4-66.7 92.7-151.4 98.6-245.3 14.6-232-161.7-431.9-393.8-446.5-9-0.6-17.9-0.8-26.8-0.8-220.4 0-405.7 171.5-419.7 394.5-14.6 232 161.7 431.9 393.8 446.5 9 0.6 17.9 0.8 26.8 0.8 102.8 0 197.9-37.3 271.6-99.8l124.5 124.5c6.8 6.8 15.8 10.3 24.7 10.3 9 0 17.9-3.4 24.7-10.3 13.7-13.6 13.7-35.7 0.1-49.4z m-206.2-140C686.4 829.3 601.4 863 512.3 863c-7.4 0-14.9-0.2-22.4-0.7-47.3-3-92.6-15.1-134.6-36-40.6-20.3-76.5-47.9-106.6-82.1-30.2-34.2-53.1-73.3-68.1-116.1-15.5-44.3-21.9-90.7-18.9-138 5.6-89.7 44.8-172.8 110.4-234.2 65.3-61.1 150.3-94.8 239.5-94.8 7.4 0 14.9 0.2 22.3 0.7 47.3 3 92.6 15.1 134.6 36 40.6 20.3 76.5 47.9 106.6 82.1 30.2 34.2 53.1 73.3 68.1 116.1 15.5 44.3 21.9 90.7 18.9 138-5.7 89.6-44.9 172.8-110.4 234.2z"
-                        p-id="3798"
-                        fill="#8a8a8a"
+                            d="M957.9 908.2L833.4 783.7c56.4-66.7 92.7-151.4 98.6-245.3 14.6-232-161.7-431.9-393.8-446.5-9-0.6-17.9-0.8-26.8-0.8-220.4 0-405.7 171.5-419.7 394.5-14.6 232 161.7 431.9 393.8 446.5 9 0.6 17.9 0.8 26.8 0.8 102.8 0 197.9-37.3 271.6-99.8l124.5 124.5c6.8 6.8 15.8 10.3 24.7 10.3 9 0 17.9-3.4 24.7-10.3 13.7-13.6 13.7-35.7 0.1-49.4z m-206.2-140C686.4 829.3 601.4 863 512.3 863c-7.4 0-14.9-0.2-22.4-0.7-47.3-3-92.6-15.1-134.6-36-40.6-20.3-76.5-47.9-106.6-82.1-30.2-34.2-53.1-73.3-68.1-116.1-15.5-44.3-21.9-90.7-18.9-138 5.6-89.7 44.8-172.8 110.4-234.2 65.3-61.1 150.3-94.8 239.5-94.8 7.4 0 14.9 0.2 22.3 0.7 47.3 3 92.6 15.1 134.6 36 40.6 20.3 76.5 47.9 106.6 82.1 30.2 34.2 53.1 73.3 68.1 116.1 15.5 44.3 21.9 90.7 18.9 138-5.7 89.6-44.9 172.8-110.4 234.2z"
+                            p-id="3798"
+                            fill="#8a8a8a"
                         ></path>
                     </svg>
                 </span>
@@ -209,7 +209,7 @@ Panel.prototype.create = function () {
                         ></path>
                     </svg>
                 </span>
-                <span class="translate_enlarge_narrow translate_icon">
+                <span class="translate_enlarge_narrow translate_icon" title="放大">
                     <svg
                         viewBox="0 0 1024 1024"
                         class="translate_fangda"
@@ -231,7 +231,7 @@ Panel.prototype.create = function () {
                         p-id="2412"
                         width="16"
                         height="16"
-                        >
+                    >
                         <path
                             d="M65.991363 679.954822c-12.104086 0-21.912081-9.807995-21.912081-21.91208s9.807995-21.912081 21.912081-21.912081h183.177057c38.183147 0 72.85129 15.590743 97.994906 40.734359 25.143616 25.11527 40.734359 59.811759 40.73436 97.994907v183.177057c0 12.104086-9.807995 21.912081-21.912081 21.91208s-21.912081-9.807995-21.91208-21.91208v-183.177057c0-26.079061-10.686746-49.805337-27.893257-67.011848s-40.932787-27.893257-67.011848-27.893257H65.991363z m613.935112 278.082162c0 12.104086-9.807995 21.912081-21.91208 21.91208s-21.912081-9.807995-21.912081-21.91208v-183.177057c0-38.183147 15.590743-72.85129 40.73436-97.994907 25.11527-25.143616 59.811759-40.734359 97.994906-40.734359h183.205404c12.104086 0 21.912081 9.807995 21.91208 21.912081s-9.807995 21.912081-21.91208 21.91208h-183.205404c-26.079061 0-49.805337 10.686746-67.011848 27.893257s-27.893257 40.932787-27.893257 67.011848v183.177057z m278.110509-613.963459c12.104086 0 21.912081 9.807995 21.91208 21.91208s-9.807995 21.912081-21.91208 21.912081h-183.205404c-38.183147 0-72.85129-15.590743-97.994906-40.73436s-40.734359-59.840106-40.73436-97.994906V65.963016c0-12.104086 9.807995-21.912081 21.912081-21.91208s21.912081 9.807995 21.91208 21.91208v183.205404c0 26.050714 10.686746 49.77699 27.893257 66.983501 17.206511 17.234858 40.932787 27.921603 67.011848 27.921604h183.205404zM344.073525 65.963016c0-12.104086 9.807995-21.912081 21.91208-21.91208s21.912081 9.807995 21.912081 21.91208v183.205404c0 38.1548-15.590743 72.85129-40.73436 97.994906s-59.811759 40.734359-97.994906 40.73436H65.991363c-12.104086 0-21.912081-9.807995-21.912081-21.912081s9.807995-21.912081 21.912081-21.91208h183.177057c26.079061 0 49.805337-10.686746 67.011848-27.893257 17.206511-17.234858 27.893257-40.932787 27.893257-67.011848V65.963016z"
                             p-id="2413"
@@ -316,10 +316,19 @@ Panel.prototype.hide = function () {
     this.container.classList.remove('show_panel');
     document.onmousemove = null;
     this.isClickQuery = false;
+    this.enlarge_narrow.setAttribute('title', '放大');
     let textarea_btn_dom = this.contentpanel.querySelector('.translate_textarea_btn');
     if (textarea_btn_dom) {
         textarea_btn_dom.remove();
     }
+    this.is_enlarge_narrow_status = true;
+    this.container.classList.remove('translate_panel_box_max');
+    this.contentpanel.classList.remove('translate_contentpanel_max');
+    this.source.classList.remove('translate_content_max');
+    this.dest.classList.remove('translate_content_max');
+    this.enlarge_narrow.querySelector('.translate_fangda').classList.remove('translate_hide');
+    this.enlarge_narrow.querySelector('.translate_suoxiao').classList.add('translate_hide');
+    document.body.classList.remove('body-popup-parent--hidden')
 };
 
 // 关闭面板事件
@@ -391,13 +400,12 @@ Panel.prototype.translate = function (origin = '') {
 
         // 判断如果字数过多 需切割分批处理
         let newArr = this.appointSplitStr(origin, 1000);
-        // console.log('原文数组', newArr);
         let yuanwen = '';
         let yiwen = '';
 
         new Promise((reslove, reject) => {
             let temp_arr_all = [];
-            for (let i = 0; i < newArr.length;i++){
+            for (let i = 0; i < newArr.length; i++){
                 //谷歌翻译接口
                 this.translate_google_api(slValue, toLang, newArr[i]).then(res => {
                     let result = res;
@@ -413,16 +421,15 @@ Panel.prototype.translate = function (origin = '') {
                         }
                         temp_arr_all = [...temp_arr_all, ...result[0]];
                         if (i === newArr.length -1) {
-                            reslove(temp_arr_all)
+                            reslove(temp_arr_all);
                         }
                     } else {
-                        reject(false)
+                        reject(false);
                     }
                 })
             }
         }).then(res => {
             let result = res;
-            // console.log(res);
             if (!!result) {
                 result.forEach((item, index) => {
                     if (!this.isClickQuery) {
@@ -451,7 +458,7 @@ Panel.prototype.translate_google_api = function (slValue, toLang, origin) {
     // tl:目标语种
     // q:内容
     let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${slValue}&tl=${toLang}&dt=t&q=${origin}`;
-    return fetch(url).then(res => res.json())
+    return fetch(url).then(res => res.json());
 };
 
 // 指定个数切割字符串
@@ -485,14 +492,14 @@ Panel.prototype.isFatcher = function (p, c) {
 // 注册拖拽事件
 Panel.prototype.startDrop = function (drop_dom, panel_dom) {
     drop_dom.onmousedown = e => {
-        e.preventDefault()
+        e.preventDefault();
         if (!this.is_enlarge_narrow_status) return
         let { left, top } = this.getOffsetXY(panel_dom),
             { pageX, pageY } = e,
             boxX = pageX - left,
             boxY = pageY - top;
         document.onmousemove = function (e) {
-            e.preventDefault()
+            e.preventDefault();
             let { pageX, pageY } = e;
             if (pageX <= 0) { pageX = 0 }
             if (pageY <= 0) { pageY = 0 }
@@ -515,7 +522,7 @@ Panel.prototype.getOffsetXY = function (element) {
         top += parent.offsetTop;
         parent = parent.offsetParent;
     }
-    return { top, left };
+    return { top, left }
 };
 
 // 鼠标移入移出高亮公共函数
@@ -564,20 +571,24 @@ panel.copy.onclick = function () {
 panel.query.onclick = function () {
     // 点击搜索切换出搜索界面
     if (panel.isClickQuery) return
-    let textarea =  `<textarea autofocus="autofocus" placeholder="请输入" class="translate_textarea"></textarea>`
+    let textarea = `<textarea autofocus="autofocus" placeholder="请输入" class="translate_textarea"></textarea>`;
     panel.source.innerHTML = textarea;
     panel.source.querySelector('.translate_textarea').value = panel.origintext;
-    let queryBtn = `<button class="translate_textarea_btn">翻译</button>`
+    // 判断放大还是缩小状态 设置输入框的高
+    if (!panel.is_enlarge_narrow_status) {
+        panel.source.querySelector('.translate_textarea').classList.add('translate_textarea_max');
+    }
+    let queryBtn = `<button class="translate_textarea_btn">翻译</button>`;
     panel.contentpanel.querySelector('select').insertAdjacentHTML('beforebegin',queryBtn)
     panel.contentpanel.querySelector('.translate_textarea_btn').onclick = function () {
         // 开始翻译
         let textarea_value = panel.source.querySelector('.translate_textarea').value;
-        panel.translate(textarea_value)
+        panel.translate(textarea_value);
     }
+    panel.source.style.height = '99%';
+    panel.source.style.overflow = 'visible';
     panel.isClickQuery = true;
 }
-
-
 
 // 右击选中目标段落
 panel.contentpanel.oncontextmenu = function (e) {
@@ -595,8 +606,11 @@ panel.enlarge_narrow.onclick = function () {
         panel.oldLeft = oldLeft;
         panel.enlarge_narrow.querySelector('.translate_fangda').classList.add('translate_hide');
         panel.enlarge_narrow.querySelector('.translate_suoxiao').classList.remove('translate_hide');
+        panel.enlarge_narrow.setAttribute('title', '缩小');
         if (panel.isClickQuery) {
             panel.source.querySelector('.translate_textarea').classList.add('translate_textarea_max');
+            panel.source.style.height = '99%';
+            panel.source.style.overflow = 'visible';
         }
         panel.container.classList.add('translate_panel_box_max');
         panel.container.style.top = 0;
@@ -606,6 +620,7 @@ panel.enlarge_narrow.onclick = function () {
         panel.contentpanel.classList.add('translate_contentpanel_max');
         panel.source.classList.add('translate_content_max');
         panel.dest.classList.add('translate_content_max');
+        document.body.classList.add('body-popup-parent--hidden');
     } else {
         panel.container.classList.remove('translate_panel_box_max');
         panel.container.style.top = `${panel.oldTop}px`;
@@ -618,7 +633,10 @@ panel.enlarge_narrow.onclick = function () {
         }
         panel.enlarge_narrow.querySelector('.translate_fangda').classList.remove('translate_hide');
         panel.enlarge_narrow.querySelector('.translate_suoxiao').classList.add('translate_hide');
+        panel.enlarge_narrow.setAttribute('title', '放大');
         panel.is_enlarge_narrow_status = true;
+        panel.source.removeAttribute('style');
+        document.body.classList.remove('body-popup-parent--hidden');
     }
 };
 

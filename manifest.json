@@ -34,7 +34,8 @@
     "activeTab",
     "storage",
     "tabs",
-    "contextMenus"
+    "contextMenus",
+    "declarativeContent"
   ],
   "background": {
     "scripts": [
