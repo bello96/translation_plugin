@@ -2,7 +2,7 @@
 
 > 项目描述
 
-这是一个浏览器翻译插件，简单版的划词翻译，使用 chrome extensions API 以及 原生 JS 完成。
+这是一个浏览器划词翻译插件，使用 chrome extensions API 以及 原生 JS 实现。
 
 > 使用方式
 
@@ -10,14 +10,13 @@
 
   ![](https://files.mdnice.com/user/3666/237ee31c-ec12-49a5-8bad-830186918198.png)
 
-- 开启划词翻译，鼠标选中页面上文本，自动弹出翻译面板
-- 默认自动检测语种，可以手动切换
+- 开启划词翻译，鼠标选中页面上文本，自动弹出开启翻译图标
+![](https://files.mdnice.com/user/3666/b620e784-fe78-486d-84c5-91916d96244b.png)
 
-  ![](https://files.mdnice.com/user/3666/5270d78c-4e70-4f8f-91b2-3fb8793e81c9.png)
+- 点击图标 - 默认自动检测语种，也可以手动切换要翻译的语种
+![](https://files.mdnice.com/user/3666/50c4c844-69dd-4f6d-a1c1-cb1a27f4adb6.png)
 
-- 切换要译文的语种
-
-  ![](https://files.mdnice.com/user/3666/eecc0125-02f5-4c61-b6ee-c408d84ea35d.png)
+- 暴露出的额外扩展功能，如切换成输入模式，复制译文，全屏放大，关闭面板，鼠标移入高亮...
 
 - 当关闭划词功能时，也可以鼠标选中后右键点击‘百度翻译’打开新的 Tab
 
