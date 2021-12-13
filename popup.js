@@ -1,4 +1,4 @@
-// 此文件用来设置是否开启划词翻译功能
+// 用来设置是否开启划词翻译功能
 // 每次点开都会执行
 
 //获取弹出层中的switch按钮
@@ -22,7 +22,7 @@ chrome.storage.sync.get(['statusValue'], function (res) {
     }
     setStorageContentTabs(res.statusValue);
 });
- 
+
 // 给按钮注册点击事件
 selectNode.onclick = function () {
     if (statusValue === 'off') {
