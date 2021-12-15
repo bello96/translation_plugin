@@ -1,5 +1,4 @@
 // 该文件用来设置是否开启划词翻译功能
-// 每次点开都会执行
 
 //获取弹出层中的switch按钮
 let selectNode = document.querySelector('.container_popup .container_popup_switch-input');
