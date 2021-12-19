@@ -1,4 +1,5 @@
 // 翻译面板的构造函数
+
 function Panel() {
     // 划词翻译默认是关闭状态
     this.selectState = 'off';
@@ -375,12 +376,12 @@ Panel.prototype.getAttributeValueDom = function (parent, tagName, name, value) {
 
 // 翻译函数（谷歌翻译） (origin:选中的文本内容 )
 Panel.prototype.translate = function (origin = '') {
-    if(!origin) return
+    if (!origin) return
     this.dest.innerHTML = this.loding_dom;
     if (!this.isClickQuery) {
         this.source.innerHTML = this.loding_dom;
     }
-    
+
     let slValue = 'auto';
     let toLang = 'zh-CN';
     // 查看用户是否已经设置了要翻译成哪个语种
@@ -405,7 +406,7 @@ Panel.prototype.translate = function (origin = '') {
 
         new Promise((reslove, reject) => {
             let temp_arr_all = [];
-            for (let i = 0; i < newArr.length; i++){
+            for (let i = 0; i < newArr.length; i++) {
                 //谷歌翻译接口
                 this.translate_google_api(slValue, toLang, newArr[i]).then(res => {
                     let result = res;
@@ -420,7 +421,7 @@ Panel.prototype.translate = function (origin = '') {
                             }
                         }
                         temp_arr_all = [...temp_arr_all, ...result[0]];
-                        if (i === newArr.length -1) {
+                        if (i === newArr.length - 1) {
                             reslove(temp_arr_all);
                         }
                     } else {
@@ -434,7 +435,7 @@ Panel.prototype.translate = function (origin = '') {
                 result.forEach((item, index) => {
                     if (!this.isClickQuery) {
                         yuanwen += `<p idx="${index}" class="translate_translation">${item[1]}</p>`;
-                     }
+                    }
                     yiwen += `<p idx="${index}" class="translate_original">${item[0]}</p>`;
                 })
                 if (!this.isClickQuery) {
@@ -579,7 +580,7 @@ panel.query.onclick = function () {
         panel.source.querySelector('.translate_textarea').classList.add('translate_textarea_max');
     }
     let queryBtn = `<button class="translate_textarea_btn">翻译</button>`;
-    panel.contentpanel.querySelector('select').insertAdjacentHTML('beforebegin',queryBtn)
+    panel.contentpanel.querySelector('select').insertAdjacentHTML('beforebegin', queryBtn)
     panel.contentpanel.querySelector('.translate_textarea_btn').onclick = function () {
         // 开始翻译
         let textarea_value = panel.source.querySelector('.translate_textarea').value;
