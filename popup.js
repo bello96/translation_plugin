@@ -4,8 +4,7 @@ let selectNode = document.querySelector('.container_popup .container_popup_switc
 //默认划词翻译功能是关闭状态
 let statusValue = 'off';
 // title文本dom
-let titleSelectDom = document.querySelector(".container_popup .container_popup_text");
-
+let titleSelectDom = document.querySelector(".container_popup .container_popup_text")
 // 每次初始化都需要查询是否开启 划词翻译 功能，控制按钮样式
 chrome.storage.sync.get(['statusValue'], function (res) {
     // 通过获取 switch 值控制switch按钮的显示样式（打开or关闭）
