@@ -1,5 +1,4 @@
 // 翻译面板的构造函数
-
 function Panel() {
     // 划词翻译默认是关闭状态
     this.selectState = 'off';
