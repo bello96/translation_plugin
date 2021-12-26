@@ -43,7 +43,7 @@ function Panel() {
     </svg>`
 };
 
-// 创建翻译icon
+// 创建翻译icon-
 Panel.prototype.createIcon = function () {
     // 创建一个icon图标
     let iconDom = document.createElement('div');
