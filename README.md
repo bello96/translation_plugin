@@ -2,7 +2,7 @@
 
 > 项目描述
 
-这是一个浏览器划词翻译插件，使用 chrome extensions API 以及 原生 JS 实现。
+这是一个浏览器划词翻译插件，使用 chrome extensions API 以及 原生 JS 实现完成。
 
 > 使用方式
 
