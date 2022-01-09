@@ -1,7 +1,7 @@
 {
   "name": "划词翻译",
   "version": "1.0.2",
-  "description": "支持网页划词翻译功能，输入翻译",
+  "description": "支持网页划词翻译功能",
   "manifest_version": 2,
   "icons": {
     "16": "images/translate.png",
